@@ -75,9 +75,3 @@ steps:
         echo "*******************************************************************************"
       fi
 # [END tf-apply]
-
-# 👇 NEW BLOCK: logging + service account
-options:
-  logging: CLOUD_LOGGING_ONLY
-  # or use: defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
-
