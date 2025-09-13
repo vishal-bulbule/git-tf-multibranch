@@ -1,4 +1,3 @@
-
 steps:
 - id: 'branch name'
   name: 'alpine'
@@ -11,7 +10,7 @@ steps:
       echo "***********************"
 
 - id: 'tf init'
-  name: 'hashicorp/terraform:0.11.14'
+  name: 'hashicorp/terraform:1.9.5'
   entrypoint: 'sh'
   args: 
   - '-c'
@@ -23,8 +22,8 @@ steps:
         for dir in environments/*/
         do 
           cd ${dir}   
-          env=${dir%*/}
-          env=${env#*/}
+          env=${dir%*/} 
+          env=${env#*/} 
           echo ""
           echo "*************** TERRAFORM INIT ******************"
           echo "******* At environment: ${env} ********"
@@ -32,11 +31,11 @@ steps:
           terraform init || exit 1
           cd ../../
         done
-      fi 
+      fi
 
 # [START tf-plan]
 - id: 'tf plan'
-  name: 'hashicorp/terraform:0.11.14'
+  name: 'hashicorp/terraform:1.9.5'
   entrypoint: 'sh'
   args: 
   - '-c'
@@ -48,8 +47,8 @@ steps:
         for dir in environments/*/
         do 
           cd ${dir}   
-          env=${dir%*/}
-          env=${env#*/}  
+          env=${dir%*/} 
+          env=${env#*/}   
           echo ""
           echo "*************** TERRAFOM PLAN ******************"
           echo "******* At environment: ${env} ********"
@@ -57,12 +56,12 @@ steps:
           terraform plan || exit 1
           cd ../../
         done
-      fi 
+      fi
 # [END tf-plan]
 
 # [START tf-apply]
 - id: 'tf apply'
-  name: 'hashicorp/terraform:0.11.14'
+  name: 'hashicorp/terraform:1.9.5'
   entrypoint: 'sh'
   args: 
   - '-c'
@@ -75,4 +74,10 @@ steps:
         echo "Branch '$BRANCH_NAME' does not represent an oficial environment."
         echo "*******************************************************************************"
       fi
-# [END tf-apply]      
+# [END tf-apply]
+
+# 👇 NEW BLOCK: logging + service account
+options:
+  logging: CLOUD_LOGGING_ONLY
+  # or use: defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+
